@@ -5,6 +5,8 @@
 This PortSwigger lab hides a classic **UNION-based injection** inside the category filter.
 Our goal is to extract **all usernames and passwords** from the `users` table — using a **single text column** and multi-value concatenation.
 
+[Lab Link](https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column) <br/>
+
 ![Cover](SQLi__PoC_/Cover.jpeg)
 
 ---
