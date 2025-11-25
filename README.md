@@ -154,9 +154,9 @@ Payload:
 
 Output:
 
-wiener~y2oy9jnq2x2ljlqey3dd
-carlos~y11guehqoit2s2hxj1t2
-administrator~iw82lgcs8vwqgtc7ert8
+wiener~y2oy9jnq2x2ljlqey3dd <br/>
+carlos~y11guehqoit2s2hxj1t2 <br/>
+administrator~iw82lgcs8vwqgtc7ert8 <br/>
 
 ![6](SQLi__PoC_/6.png)
 
